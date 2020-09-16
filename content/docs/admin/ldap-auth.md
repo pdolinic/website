@@ -97,3 +97,16 @@ LDAP_GROUP_ATTRIBUTE="memberOf"
 # Remove users from roles that don't match LDAP groups.
 LDAP_REMOVE_FROM_GROUPS=false
 ```
+### LDAP_TLS_INSECURE=false
+
+In order to avoid MITM Attacks via DNS Cache Poisoning where an attacker could act as an LDAP Controller and harvest all Credentials, it is recommended to provide domain controller certificates to the BookStack server to complete the chain of trust.
+
+```bash
+#Firstly get the Domain Controller IP
+dig Domain_Controller_IP
+
+#Next copy the entire SSL Headder from Begin to End including "-"
+openssl s_client -connect Domain_Controller_IP 
+
+#Finally add them to your BookStack servers' SSL list.
+sudo vi /etc/ssl/certs/ca-certificates.crt
